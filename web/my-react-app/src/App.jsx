@@ -7,6 +7,7 @@ function App() {
 
   useEffect(() => {
     initAnalytics("test_fiu_id_web1");
+
   }, [])
 
   return (

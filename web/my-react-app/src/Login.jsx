@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { logEvent, AnalyticsEvent } from "./analytics/event";
 
 const LoginScreen = () => {
   useEffect(() => {
+    logEvent(AnalyticsEvent.UserIdentity(uuidv4()));
     logEvent(AnalyticsEvent.ScreenView("LoginScreen"));
+    
   }, []);
 
   const handleLoginClick = () => {
@@ -15,7 +18,8 @@ const LoginScreen = () => {
   return (
     <div style={styles.container}>
       <h1>Login</h1>
-      <button onClick={handleLoginClick} style={styles.button}>
+      <button  data-ph-capture-attribute-button-id="login_button"
+    data-ph-capture-attribute-button-name="Login Button" onClick={handleLoginClick} style={styles.button}>
         Login
       </button>
     </div>

@@ -1,14 +1,17 @@
 import posthog from "posthog-js";
+import { v4 as uuidv4 } from 'uuid';
+
 
 // Hardcoded PostHog Configuration
-const POSTHOG_KEY = "phc_8voyvBCO9Zd6RaE5cWvUh4chkTux9j2TnsRfWHU95Qe"
-const POSTHOG_UI_HOST = "http://localhost:8080"
+const POSTHOG_KEY = "phc_TrzXOp82cNFXaM6qaRT4JDvgHmbJPXiilRYg2MgWWcs"
+const POSTHOG_UI_HOST = "https://eu.i.posthog.com"
 const POSTHOG_HOST = "http://localhost:5000";
 
 class AnalyticsClass {
   constructor() {
     this.posthog = null;
     this.fiuId = null;
+    this.distinctId = uuidv4();
   }
 
   init(fiuId) {
@@ -30,8 +33,6 @@ class AnalyticsClass {
         recordCanvas: true,
         sampleRate: 1.0
       },
-      capture_pageview: true,
-      persistence: 'localStorage+cookie',
 
       // Disable any custom compression
       disable_compression: true
@@ -46,7 +47,7 @@ class AnalyticsClass {
 
     // Ensure base properties always have the required fields
     const baseProperties = {
-      distinct_id: "",
+      distinct_id: event?.userId ?? this.distinctId,
       fiu_id: this.fiuId,
       $session_id: this.posthog.get_session_id() || `session_${Math.random().toString(36).substr(2, 9)}`,
     };
@@ -79,6 +80,7 @@ class AnalyticsClass {
           break;
 
         case "UserIdentity":
+          this.distinctId = event?.userId ?? this.distinctId;
           this.posthog.identify(event.userId || distinctId, {
             ...baseProperties,
             ...event.properties,
