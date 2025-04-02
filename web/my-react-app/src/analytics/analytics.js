@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Hardcoded PostHog Configuration
 const POSTHOG_KEY = "phc_TrzXOp82cNFXaM6qaRT4JDvgHmbJPXiilRYg2MgWWcs"
-const POSTHOG_UI_HOST = "https://eu.i.posthog.com"
+const POSTHOG_UI_HOST = "http://localhost:8080"
 const POSTHOG_HOST = "http://localhost:5000";
 
 class AnalyticsClass {
